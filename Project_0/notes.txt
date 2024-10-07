@@ -1,0 +1,15 @@
+spring ->	core
+			web /mvc
+			boot ->
+					REST API -- services
+					microservices-->
+					
+maven -> tool -> jar -> lib
+
+advjava -> lib
+
+maven -> pom.xml -> entry -> mvnrepository
+
+ant ->
+maven ->
+gradle ->
