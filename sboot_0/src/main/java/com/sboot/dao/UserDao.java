@@ -14,8 +14,8 @@ public class UserDao {
     @Autowired
     JdbcTemplate stmt;
 
-    public void add(UserBean user) {
-        stmt.update("insert into users (firstName, email, password, deleted) values (?, ?, ?, 0)", user.getFirstName(), user.getEmail(), user.getPassword());
+    public void addUser(UserBean user) {
+        stmt.update("INSERT INTO users (firstName, email, password, deleted) VALUES (?, ?, ?, 0)", user.getFirstName(), user.getEmail(), user.getPassword());
     }
 
     public List<UserBean> getAllUsers() {
