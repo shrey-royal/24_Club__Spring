@@ -19,8 +19,14 @@ public class UserDao {
     }
 
     public List<UserBean> getAllUsers() {
-        return stmt.query("select * from users where deleted != 1", new BeanPropertyRowMapper<UserBean>(UserBean.class));
+        return stmt.query("SELECT * FROM users WHERE deleted != 1", new BeanPropertyRowMapper<UserBean>(UserBean.class));
     }
 
+    public void softDeleteUser(Integer userId) {
+        stmt.update("UPDATE users SET deleted = 1 WHERE userId = ?", userId);
+    }
 
+    public List<UserBean> getDeletedUsers() {
+        return stmt.query("SELECT * FROM users WHERE deleted = 1", new BeanPropertyRowMapper<UserBean>(UserBean.class));
+    }
 }

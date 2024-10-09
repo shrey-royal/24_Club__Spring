@@ -2,14 +2,14 @@ package com.sboot.controller;
 
 import com.sboot.bean.UserBean;
 import com.sboot.dao.UserDao;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -31,19 +31,37 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public String getDataFromSignupForm(@ModelAttribute("user") UserBean user, BindingResult res, Model model) {
-        System.out.println(res.hasErrors());
-        model.addAttribute("user", user);
+    public String getDataFromSignupForm(@ModelAttribute("user") @Valid UserBean user, BindingResult res, Model model) {
+//        System.out.println("First Name: " + user.getFirstName());
+//        System.out.println("Email: " + user.getEmail());
+//        System.out.println("Password: " + user.getPassword());
 
         if (res.hasErrors()) {
             return "signup";
         } else {
             userDao.addUser(user);
-            System.out.println(user.getFirstName());
-            System.out.println(user.getEmail());
-            return "home";
+            return "redirect:/list";
         }
+    }
 
+    @GetMapping("/list")
+    public String listUsers(Model model) {
+        List<UserBean> users = userDao.getAllUsers();
+        model.addAttribute("users", users);
+        return "list";
+    }
+
+    @GetMapping("/delete")
+    public String deleteUser(@RequestParam("userId") Integer userId) {
+        userDao.softDeleteUser(userId);
+        return "redirect:/list";
+    }
+
+    @GetMapping("/listdeleted")
+    public String listDeletedUsers(Model model) {
+        List<UserBean> users = userDao.getDeletedUsers();
+        model.addAttribute("users", users);
+        return "list_deleted";
     }
 
 }

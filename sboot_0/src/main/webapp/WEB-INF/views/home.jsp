@@ -8,5 +8,12 @@
 </head>
 <body>
    <h1>Home Page</h1>
+   <br>
+   <ol type="I">
+        <li><a href="signup">Signup</a></li>
+        <li><a href="list">List Users</a></li>
+        <li><a href="listdeleted">List Deleted Users</a></li>
+        <li><a href="#">Update User</a></li>
+   </ol>
 </body>
 </html>
