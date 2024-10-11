@@ -12,9 +12,15 @@
    <br>
    <ul>
         <c:forEach items="${users}" var="u">
-            <li>${u.userId} | ${u.firstName} | ${u.email} | ${u.password} | ${u.deleted} </li>
-            <br>
-        </c:forEach>
+                    <li>
+                        ${u.userId} | ${u.firstName} | ${u.email} | ${u.password} | ${u.deleted} |
+                        <form action="/deletefg" method="post" style="display:inline;">
+                            <input type="hidden" name="userId" value="${u.userId}">
+                            <button type="submit">Permanent Delete</button>
+                        </form>
+                        </li>
+                    <br>
+                </c:forEach>
    </ul>
 </body>
 </html>

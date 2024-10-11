@@ -51,7 +51,28 @@ public class UserController {
         return "list";
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/update")
+    public String showUpdateForm(@RequestParam("userId") Integer userId, Model model) {
+        model.addAttribute("user", userDao.getUserByUserId(userId));
+        return "updateUserForm";
+    }
+
+    @PostMapping("/updateuser")
+    public String getDataFromUpdateUserForm(@ModelAttribute("user") @Valid UserBean user, BindingResult res, Model model) {
+        System.out.println("Id: " + user.getUserId());
+        System.out.println("First Name: " + user.getFirstName());
+        System.out.println("Email: " + user.getEmail());
+        System.out.println("Password: " + user.getPassword());
+
+        if (res.hasErrors()) {
+            return "update";
+        } else {
+            userDao.updateUser(user);
+            return "redirect:/list";
+        }
+    }
+
+    @PostMapping("/delete")
     public String deleteUser(@RequestParam("userId") Integer userId) {
         userDao.softDeleteUser(userId);
         return "redirect:/list";
@@ -62,6 +83,24 @@ public class UserController {
         List<UserBean> users = userDao.getDeletedUsers();
         model.addAttribute("users", users);
         return "list_deleted";
+    }
+
+    @GetMapping("/search")
+    public String search() {
+        return "search";
+    }
+
+    @PostMapping("/searchuser")
+    public String searchUser(@RequestParam("firstName") String firstName, Model model) {
+        List<UserBean> users = userDao.searchUserByFirstName(firstName);
+        model.addAttribute("users", users);
+        return "searchList";
+    }
+
+    @PostMapping("/deletefg")
+    public String hardDelete(@RequestParam("userId") Integer userId) {
+        userDao.hardDeleteUser(userId);
+        return "redirect:/listdeleted";
     }
 
 }

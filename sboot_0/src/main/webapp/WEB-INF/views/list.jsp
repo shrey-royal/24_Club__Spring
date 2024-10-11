@@ -10,9 +10,22 @@
 <body>
    <h1>List All Users</h1>
    <br>
+   <a href="search">Search User</a>
+   <br>
    <ul>
         <c:forEach items="${users}" var="u">
-            <li>${u.userId} | ${u.firstName} | ${u.email} | ${u.password} | ${u.deleted} | <a href="delete?userId=${u.userId}">Delete</a> </li>
+            <li>
+                ${u.userId} | ${u.firstName} | ${u.email} | ${u.password} | ${u.deleted} |
+                <form action="/update" method="post" style="display:inline;">
+                    <input type="hidden" name="userId" value="${u.userId}">
+                    <button type="submit">Update</button>
+                </form>
+                |
+                <form action="/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="userId" value="${u.userId}">
+                    <button type="submit">Delete</button>
+                </form>
+                </li>
             <br>
         </c:forEach>
    </ul>
