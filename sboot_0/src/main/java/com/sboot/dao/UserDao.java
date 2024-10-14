@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -44,5 +45,16 @@ public class UserDao {
 
     public UserBean getUserByUserId(Integer userId) {
         return stmt.queryForObject("SELECT * FROM users WHERE deleted != 1 AND userId = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class), userId);
+    }
+
+    public UserBean validateUser(String email, String password) {
+        ArrayList<UserBean> list = (ArrayList<UserBean>) stmt.query("SELECT * FROM users WHERE deleted != 1 AND email = ? AND password = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class), email, password);
+
+        if(list.size() == 1) return list.getFirst();
+        else return null;
+    }
+
+    public void updateProfilePicture(Integer userId, String fileName) {
+        stmt.update("UPDATE users SET profilePic = ? WHERE deleted != 1 AND userId = ?", fileName, userId);
     }
 }

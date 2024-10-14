@@ -14,6 +14,8 @@
         <li><a href="list">List Users</a></li>
         <li><a href="listdeleted">List Deleted Users</a></li>
         <li><a href="search">Search User</a></li>
+        <li><a href="user/login">Login</a></li>
+
    </ol>
 </body>
 </html>
