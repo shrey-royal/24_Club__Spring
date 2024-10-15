@@ -70,4 +70,24 @@ public class ProfilePicController {
 
         return "redirect:/user/profile";
     }
+
+    @PostMapping("/deleteProfilePic")
+    public String deleteProfilePic(HttpSession session) {
+        UserBean user = (UserBean) session.getAttribute("user");
+        if(user == null) {
+            return "redirect:/user/login";
+        }
+
+        userDao.updateProfilePicture(user.getUserId(), null);
+        user.setProfilePic(null);
+
+        return "redirect:/user/profile";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/user/login";
+    }
+
 }
