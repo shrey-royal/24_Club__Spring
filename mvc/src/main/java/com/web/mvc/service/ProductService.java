@@ -21,4 +21,22 @@ public class ProductService {
     public Optional<Product> getproductById(long id) {
         return productRepository.findById(id);
     }
+
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    public Product updateProduct(Long id, Product updatedProduct) {
+        return productRepository.findById(id)
+                .map(existingProduct -> {
+                    existingProduct.setName(updatedProduct.getName());
+                    existingProduct.setPrice(updatedProduct.getPrice());
+                    return productRepository.save(existingProduct);
+                })
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
 }
