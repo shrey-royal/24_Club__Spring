@@ -26,13 +26,12 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public Product getProductById(@PathVariable("id") Long id) {
         return productService.getproductById(id);
     }
 
-    // Problem
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public List<Product> getProductByName(@PathVariable("name") String name) {
         return productService.getProductByName(name);
     }
